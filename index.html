@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Understanding JavaScript Capture</title>
+</head>
+<body class="bod">
+
+  <div class="one">
+    <div class="two">
+      <div class="three">
+      </div>
+    </div>
+  </div>
+
+<style>
+  html {
+    box-sizing: border-box;
+  }
+  
+  *, *:before, *:after { 
+    box-sizing: inherit; 
+  }
+
+  div {
+    width: 100%;
+    padding: 100px;
+  }
+
+  .one {
+    background: thistle;
+  }
+
+  .two {
+    background: mistyrose;
+  }
+
+  .three {
+    background: coral;
+  }
+</style>
+
+<button></button>
+<script>
+  
+  const divs = document.querySelectorAll('div');
+  const button = document.querySelector('button');
+
+  function logText(e) {
+    console.log(this.classList.value);
+    // e.stopPropagation(); //stop bubbling
+    // console.log(this);
+  }
+
+  // the capture is from the top down
+  // the trigger bubbles up
+
+  // document.body.addEventListener('click', logText);
+
+  // divs.forEach(div => div.addEventListener('click', logText));
+
+  // divs.forEach(div => div.addEventListener('click', logText, {
+  //   // capture: true  // function logText will be run on the capture down
+  //   capture: false, // by default it is false
+  // }));
+
+  divs.forEach(div => div.addEventListener('click', logText, {
+    capture: false,
+    once: true // will listen for a click then unbind itself
+  }));
+  // same thing as saying
+  // div.removeEventListener('click', logText);
+
+  button.addEventListener('click',  () => {
+    console.log('Click!!!');
+  }, {
+    once: true // useful for store checkouts
+  });
+
+
+</script>
+</body>
+</html>
